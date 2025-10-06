@@ -1,735 +1,1405 @@
-<!DOCTYPE html>
+: <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title>FOQI Coin | $FOQI Airdrop</title>
 
-        <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
 
-        <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
 
-        <style>
+    <!-- FAVICON -->
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+
+
+
+    <!-- Ethers.js para interactuar con Ethereum -->
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
+
+
+
+    <!-- 
+
+        CSS CUSTOMIZADO (INLINE)
+
+        Todo el CSS se encuentra aquí para cumplir con la regla de archivo único.
+
+    -->
+
+    <style>
+
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
+
+
         :root {
+
             /* Colores del Tema Oscuro y Elegante */
+
             --primary-color: #38a169; /* Verde (Para éxito y acentos sutiles) */
+
             --secondary-color: #4299e1; /* Celeste Oscuro/Vivo (Acento principal) */
+
             --background-dark: #1f2937; /* Fondo Gris Oscuro */
+
             --card-background: #2d3748; /* Fondo de Tarjeta más claro que el body (Gris Azulado Oscuro) */
+
             --text-light: #f7fafc; /* Texto Principal Blanco */
+
             --text-muted: #9ca3af; /* Texto Secundario/Gris Claro */
+
             --error-color: #ef4444; /* Rojo para Errores */
+
             --success-color: #10b981; /* Verde para Éxito */
+
             --gray-accent: #5e6b7d; /* Nuevo color para el botón de MetaMask */
+
         }
+
+
 
         /* Base */
+
         * {
+
             box-sizing: border-box;
+
             margin: 0;
+
             padding: 0;
+
         }
+
+
 
         body {
+
             font-family: 'Poppins', sans-serif;
+
             /* Degradado de Fondo Oscuro: casi negro */
+
             background: linear-gradient(135deg, #10172a 0%, var(--background-dark) 100%); 
+
             color: var(--text-light); 
+
             display: flex;
+
             justify-content: center;
+
             align-items: center; 
+
             min-height: 100vh;
+
             padding: 20px 0;
+
         }
+
+
 
         /* Contenedor Principal (Tarjeta) */
+
         .container {
+
             width: 90%;
+
             max-width: 450px;
+
             padding: 30px;
+
             /* Degradado de fondo gris oscuro transparente */
+
             background: linear-gradient(145deg, var(--card-background) 0%, #374151 100%);
+
             border-radius: 20px;
+
             /* Sombra profunda */
+
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3); 
+
             display: flex;
+
             flex-direction: column;
+
             gap: 25px;
+
             text-align: center; 
+
             border: 1px solid #374151; /* Borde suave */
+
         }
+
+
 
         /* Header */
+
         .header {
+
             text-align: center;
+
             /* Usamos el color de acento celeste */
+
             border-bottom: 2px solid var(--secondary-color);
+
             padding-bottom: 20px;
+
         }
+
+
 
         .logo-container {
+
             margin-bottom: 15px;
+
             display: flex;
+
             justify-content: center;
+
         }
+
+
 
         .logo {
+
             /* TAMAÑO DE LOGO: 220px */
+
             width: 220px; 
+
             height: 220px;
+
             border-radius: 50%;
+
             object-fit: cover;
+
             border: none; 
+
             /* Sombra elegante para destacarlo en el tema oscuro */
+
             box-shadow: 0 0 20px rgba(66, 153, 225, 0.4); 
+
         }
+
         
+
         /* Ajuste de logo para móviles */
+
         @media (max-width: 500px) {
+
             .logo {
+
                 width: 150px;
+
                 height: 150px;
+
             }
+
         }
+
+
 
         .header h1 {
+
             font-size: 2rem;
+
             font-weight: 700;
+
         }
+
+
 
         .token-symbol {
+
             color: var(--secondary-color); 
+
         }
+
+
 
         .slogan {
+
             color: var(--text-muted);
+
             font-size: 1rem;
+
             font-weight: 400;
+
         }
+
+
 
         /* Secciones Generales */
+
         .section {
+
             background-color: #374151; /* Gris medio oscuro */
+
             padding: 20px;
+
             border-radius: 15px;
+
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); 
+
             text-align: center; 
+
         }
+
+
 
         .section h2 {
+
             font-size: 1.35rem;
+
             margin-bottom: 15px;
+
             color: var(--secondary-color); 
+
             /* Línea de acento con el celeste oscuro */
+
             border-bottom: 2px solid var(--secondary-color); 
+
             padding-bottom: 8px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 10px;
+
         }
+
+
 
         .section h3 {
+
              color: var(--primary-color);
+
              font-size: 1.2rem;
+
              font-weight: 700;
+
              margin-bottom: 10px;
+
         }
+
+
 
         /* Botones */
+
         .connect-button, .airdrop-button, .add-token-button {
+
             width: 100%;
+
             padding: 14px 25px;
+
             border: none;
+
             border-radius: 10px;
+
             font-size: 1.1rem;
+
             font-weight: 600;
+
             cursor: pointer;
+
             transition: all 0.2s ease-in-out;
+
             margin-top: 10px;
+
             box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4); 
+
         }
+
+
 
         /* Botón de Conexión (Celeste) */
+
         .connect-button {
+
             background-color: var(--secondary-color);
+
             color: var(--card-background); /* Texto oscuro para contraste */
+
             box-shadow: 0 4px 0 #2a6f9c; 
+
         }
+
+
 
         .connect-button:hover:not(:disabled) {
+
             background-color: #55b0f4; 
+
             transform: translateY(-1px);
+
             box-shadow: 0 5px 0 #2a6f9c; 
+
         }
+
+
 
         .connect-button:active:not(:disabled) {
+
             transform: translateY(4px);
+
             box-shadow: 0 0 0 #2a6f9c; 
+
         }
+
+
 
         /* Botón de Airdrop (Verde - Acción) */
+
         .airdrop-button {
+
             background-color: var(--primary-color);
+
             color: var(--card-background); 
+
             box-shadow: 0 4px 0 #2f855a; 
+
         }
+
+
 
         .airdrop-button:hover:not(:disabled) {
+
             background-color: #48bb78; 
+
             transform: translateY(-1px);
+
             box-shadow: 0 5px 0 #2f855a; 
+
         }
+
+
 
         .airdrop-button:active:not(:disabled) {
+
             transform: translateY(4px);
+
             box-shadow: 0 0 0 #2f855a; 
+
         }
+
+
 
         .airdrop-button.disabled {
+
             background-color: #4b5563;
+
             color: #6b7280;
+
             cursor: not-allowed;
+
             box-shadow: 0 4px #374151;
+
         }
+
         
+
         /* Nuevo Botón de Agregar Token (Gris/Plomo) */
+
         .add-token-button {
+
             background-color: var(--gray-accent); 
+
             color: var(--text-light); 
+
             box-shadow: 0 4px 0 #4a5568; 
+
             font-size: 1rem;
+
             padding: 12px 25px;
+
         }
+
+
 
         .add-token-button:hover:not(:disabled) {
+
             background-color: #6c788a; 
+
             transform: translateY(-1px);
+
             box-shadow: 0 5px 0 #4a5568; 
+
         }
 
+
+
         .add-token-button:active:not(:disabled) {
+
             transform: translateY(4px);
+
             box-shadow: 0 0 0 #4a5568; 
+
         }
+
+
+
 
 
         /* Estado de la Wallet */
+
         .wallet-status-details {
+
             margin-top: 15px;
+
             padding: 15px;
+
             background-color: #374151; /* Gris medio oscuro */
+
             border-radius: 10px;
+
             font-size: 1rem;
+
             text-align: left; 
+
             border-left: 4px solid var(--secondary-color);
+
             color: var(--text-light);
+
             display: block; 
+
             margin-top: 10px; 
+
             border: 1px solid #4b5563;
+
         }
+
+
 
         .status-label {
+
             font-weight: 600;
+
             color: var(--text-muted);
+
             margin-right: 5px;
+
         }
+
+
 
         .status-value {
+
             font-weight: 400;
+
             word-break: break-all;
+
             color: var(--text-light); 
+
         }
+
+
 
         .status-value.connected {
+
             color: var(--success-color);
+
             font-weight: 600;
+
         }
+
+
 
         .status-value.disconnected {
+
             color: var(--error-color);
+
             font-weight: 600;
+
         }
+
+
 
         /* OCULTAR la línea de la red de contrato (ya que el usuario no la solicitó) */
+
         .network-line {
+
             display: none;
+
         }
+
+
 
         .truncate {
+
             overflow: hidden;
+
             white-space: nowrap;
+
             text-overflow: ellipsis;
+
         }
+
+
 
         /* Airdrop Stats */
+
         .airdrop-section {
+
             text-align: center;
+
         }
+
+
 
         .airdrop-title {
+
             color: var(--secondary-color) !important;
+
         }
+
+
 
         .airdrop-grid {
+
             display: grid;
-            /* Usamos un layout más flexible para evitar desbordes en móviles.
-             * Permite que las columnas se adapten manteniendo un mínimo de 140px. */
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* <-- CORRECCIÓN CLAVE */
+
+            grid-template-columns: 1fr 1fr;
+
             gap: 15px;
+
             margin-bottom: 15px;
+
             text-align: center;
+
         }
+
+
 
         .airdrop-stat {
+
             padding: 15px;
+
             /* Degradado sutil para las estadísticas */
+
             background: linear-gradient(180deg, #374151 0%, #2d3748 100%);
+
             border-radius: 12px;
+
             border: 1px solid #4b5563;
+
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* CORRECCIÓN CLAVE: Permite que el texto largo (como el estado) se rompa */
-            overflow-wrap: break-word; 
-            word-break: break-word; 
+
         }
+
+
 
         .stat-label {
+
             font-size: 0.9rem;
+
             color: var(--text-muted);
+
             margin-bottom: 5px;
+
         }
+
+
 
         .stat-value {
+
             font-size: 1.75rem;
+
             font-weight: 700;
+
             color: var(--secondary-color); /* Celeste de acento */
+
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
         }
+
         
+
         /* Uso de clases específicas para el estado de reclamo */
+
         .claimed {
+
             color: var(--success-color);
+
             font-weight: 600;
+
         }
+
+
 
         .pending {
+
             color: var(--secondary-color);
+
             font-weight: 600;
+
         }
-        
-        /* Clase especial para el mensaje de pool agotada */
-        .exhausted {
-            color: var(--error-color);
-            font-weight: 700;
-            font-size: 1rem;
-        }
+
+
 
         /* Mensajes de Estado */
+
         .status-message {
+
             margin-top: 5px;
+
             padding: 10px;
+
             border-radius: 8px;
+
             background-color: transparent; 
+
             color: var(--text-light);
+
             font-size: 0.9rem;
+
             min-height: 20px; 
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             text-align: center;
+
             border: none; 
-            /* Asegura que los mensajes de estado también se envuelvan */
-            overflow-wrap: break-word; 
-            word-break: break-word; 
+
         }
+
+
 
         /* About Section */
+
         .about-section h3 {
+
              color: var(--primary-color);
+
              font-size: 1.2rem;
+
              font-weight: 700;
+
              margin-bottom: 10px;
+
         }
+
+
 
         .about-text {
+
             font-size: 0.9rem;
+
             line-height: 1.6;
+
             color: var(--text-muted);
+
         }
+
+
 
         /* Footer */
+
         .footer {
+
             text-align: center;
+
             padding-top: 15px;
+
             border-top: 1px solid #374151;
+
             font-size: 0.8rem;
+
             color: var(--text-muted);
+
         }
+
     </style>
+
 </head>
 
-<body>
-        <div class="container"> 
 
-                <header class="header">
+
+<body>
+
+    <!-- Contenedor Principal con el diseño oscuro -->
+
+    <div class="container"> 
+
+
+
+        <!-- Header -->
+
+        <header class="header">
+
             <div class="logo-container">
-                                <img src="foqi-ogg.png" alt="foqi-ogg.png" class="logo">
+
+                <!-- URL de la imagen del logo -->
+
+                <img src="foqi-ogg.png" alt="foqi-ogg.png" class="logo">
+
             </div>
+
             <h1>FOQI Coin (<span class="token-symbol">$FOQI</span>)</h1>
+
             <p class="slogan">
+
                 Naturaleza y tecnología juntos por un futuro mejor.
+
             </p>
+
         </header>
 
-                <section class="section">
+
+
+        <!-- Wallet Section -->
+
+        <section class="section">
+
             <h2>🔗 Conexión y Estado</h2>
 
+
+
             <button id="connectButton" class="connect-button">
+
                 Conectar Wallet
+
             </button>
 
-                        <div class="wallet-status-details">
+
+
+            <!-- Detalles de la Wallet -->
+
+            <div class="wallet-status-details">
+
                 <p class="truncate">
+
                     <span class="status-label">Wallet:</span>
+
                     <span id="walletAddress" class="status-value disconnected">No conectado</span>
+
                 </p>
-                                <p class="network-line">
+
+                <!-- La línea de red está oculta por el CSS -->
+
+                <p class="network-line">
+
                     <span class="status-label">Red:</span>
+
                     <span id="networkStatus" class="status-value disconnected">Desconectado</span>
+
                 </p>
+
             </div>
+
         </section>
 
-                <section class="section airdrop-section">
+
+
+        <!-- Airdrop Section -->
+
+        <section class="section airdrop-section">
+
             <h2 class="airdrop-title">
+
                 💧 Reclama tu Airdrop FOQI
+
             </h2>
 
+
+
             <div class="airdrop-grid">
+
                 <div class="airdrop-stat">
+
                     <p class="stat-label">Airdrop restante</p>
+
                     <p id="airdropRemaining" class="stat-value">-</p>
+
                     <p class="stat-unit">FOQI</p>
+
                 </div>
+
                 <div class="airdrop-stat">
+
                     <p class="stat-label">Tu estado de reclamo</p>
+
                     <p id="claimedStatus" class="pending">-</p>
+
                 </div>
+
             </div>
 
+
+
             <button id="airdropButton" disabled class="airdrop-button disabled">
+
                 Reclamar Airdrop
+
             </button>
+
             
-                        <button id="addTokenButton" class="add-token-button">
+
+            <!-- Nuevo Botón para Añadir Token -->
+
+            <button id="addTokenButton" class="add-token-button">
+
                 ➕ Añadir $FOQI a Wallet
+
             </button>
+
+
+
 
 
             <p id="status" class="status-message"></p>
+
         </section>
 
-                <section class="section about-section">
+
+
+        <!-- About Section -->
+
+        <section class="section about-section">
+
             <h3>🌱 Sobre FOQI Coin</h3>
+
             <p class="about-text">
+
                 FOQI Coin es una moneda creada para impulsar una economía responsable,
+
                 donde la tecnología blockchain se une a la conservación ambiental
+
                 y al apoyo de proyectos comunitarios.
+
             </p>
+
         </section>
 
-                <footer class="footer">
+
+
+        <!-- Footer -->
+
+        <footer class="footer">
+
             <p>© 2025 FOQI Coin | $FOQI</p>
+
         </footer>
+
     </div>
 
+
+
     <script>
+
         // --- LÓGICA JAVASCRIPT ---
+
         const connectButton = document.getElementById("connectButton");
+
         const walletAddressEl = document.getElementById("walletAddress");
+
         const networkStatusEl = document.getElementById("networkStatus");
+
         const airdropButton = document.getElementById("airdropButton");
+
         const addTokenButton = document.getElementById("addTokenButton"); // Nuevo botón
+
         const statusEl = document.getElementById("status");
+
         const airdropRemainingEl = document.getElementById("airdropRemaining");
+
         const claimedStatusEl = document.getElementById("claimedStatus");
 
+
+
         // --- DIRECCIÓN DEL CONTRATO DE EJEMPLO Y ABI ---
+
         // (Asegúrate de reemplazar esta dirección con el contrato real en la red final)
+
         const CONTRACT_ADDRESS = "0x29c2EaC23C28456DBBCB68F5cfcdE94350A27660"; 
+
         
+
         const ABI = [
+
             "function claimAirdrop() external",
+
             "function hasClaimed(address) view returns (bool)",
+
             "function airdropRemaining() view returns (uint256)"
+
         ];
 
+
+
         let provider, signer, contract;
+
         let userAddress = null;
-        let isAirdropExhausted = false; // Nueva variable de estado
+
+
 
         /**
+
          * Habilita o deshabilita el botón de Airdrop y actualiza su texto y estilo.
+
          */
+
         function setAirdropButtonState(enable, text = "Reclamar Airdrop") {
-            airdropButton.disabled = !enable || isAirdropExhausted;
-            airdropButton.textContent = isAirdropExhausted ? "Airdrop Agotado 🚫" : text;
+
+            airdropButton.disabled = !enable;
+
+            airdropButton.textContent = text;
+
+
 
             // Se usan las clases del CSS personalizado para los estilos
-            if (enable && !isAirdropExhausted) {
+
+            if (enable) {
+
                 airdropButton.classList.remove("disabled");
+
             } else {
+
                 airdropButton.classList.add("disabled");
+
             }
+
         }
 
+
+
         /**
+
          * Inicializa el proveedor de Ethers (MetaMask).
+
          */
+
         async function initProvider() {
+
             if (!window.ethereum) {
+
                 statusEl.textContent = "❌ MetaMask o Wallet Connect no detectado. Instala una extensión.";
+
                 networkStatusEl.textContent = "❌ MetaMask no detectado.";
+
                 return false;
+
             }
+
             // Usa BrowserProvider para interactuar con la billetera inyectada
+
             provider = new ethers.BrowserProvider(window.ethereum);
+
             return true;
+
         }
 
+
+
         /**
+
          * Evento al hacer clic en Conectar Wallet.
+
          */
+
         connectButton.onclick = async () => {
+
             const ok = await initProvider();
+
             if (!ok) return;
+
             
+
             try {
+
                 // Solicita las cuentas del usuario
+
                 await window.ethereum.request({ method: "eth_requestAccounts" });
+
                 
+
                 signer = await provider.getSigner();
+
                 userAddress = await signer.getAddress();
+
                 
+
                 const network = await provider.getNetwork();
 
+
+
                 // Actualiza el estado de la wallet en la interfaz
+
                 walletAddressEl.textContent = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+
                 walletAddressEl.classList.add("connected");
+
                 walletAddressEl.classList.remove("disconnected");
+
                 
+
                 networkStatusEl.textContent = `${network.name} (ChainID: ${network.chainId})`;
+
                 networkStatusEl.classList.add("connected");
+
                 networkStatusEl.classList.remove("disconnected");
 
+
+
                 // Inicializa el contrato con el Signer para enviar transacciones
+
                 contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
+
+
                 await refreshAirdropInfo();
+
                 await refreshClaimStatus();
 
+
+
             } catch (err) {
+
                 // Solo muestra el error al usuario, sin usar console.error
+
                 statusEl.textContent = "❌ Error al conectar wallet. Asegúrate de tener MetaMask desbloqueado.";
-            }
-        };
-        
-        /**
-         * NUEVA FUNCIÓN: Añadir el token a MetaMask.
-         */
-        addTokenButton.onclick = async () => {
-            if (!window.ethereum) {
-                statusEl.textContent = "❌ MetaMask no detectado.";
-                return;
+
             }
 
+        };
+
+        
+
+        /**
+
+         * NUEVA FUNCIÓN: Añadir el token a MetaMask.
+
+         */
+
+        addTokenButton.onclick = async () => {
+
+            if (!window.ethereum) {
+
+                statusEl.textContent = "❌ MetaMask no detectado.";
+
+                return;
+
+            }
+
+
+
             try {
+
                 // El método eth_requestAccounts garantiza que MetaMask esté abierto y conectado
+
                 await window.ethereum.request({ method: "eth_requestAccounts" });
+
                 
+
                 const wasAdded = await window.ethereum.request({
+
                     method: 'wallet_watchAsset',
+
                     params: {
+
                         type: 'ERC20',
+
                         options: {
+
                             address: CONTRACT_ADDRESS, // Dirección del contrato FOQI
+
                             symbol: 'FOQI', // Símbolo del token
+
                             decimals: 18, // Decimales
+
                             // image: 'URL_A_TU_IMAGEN_DE_TOKEN', // Opcional: URL de la imagen
+
                         },
+
                     },
+
                 });
 
+
+
                 if (wasAdded) {
+
                     statusEl.textContent = "✅ ¡Token $FOQI añadido con éxito a tu Wallet!";
+
                 } else {
+
                     statusEl.textContent = "ℹ️ El usuario canceló la adición del token.";
+
                 }
+
             } catch (error) {
+
                 statusEl.textContent = "❌ Falló al añadir el token. Intenta manualmente.";
+
             }
+
         };
 
 
+
+
+
         /**
+
          * Actualiza el contador de FOQI restante en el Airdrop.
+
          */
+
         async function refreshAirdropInfo() {
+
             if (!provider) {
+
                 try {
+
                     provider = ethers.getDefaultProvider("mainnet"); // Asumiendo mainnet, ajusta si es otra red
+
                 } catch (e) {
+
                     airdropRemainingEl.textContent = "N/A";
+
                     return;
+
                 }
+
             }
 
+
+
             try {
+
                 // Usamos el provider para las lecturas de solo vista
+
                 const readContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider); 
+
                 const remainingWei = await readContract.airdropRemaining();
+
                 // Asume 18 decimales (típico de tokens ERC20)
+
                 const remaining = ethers.formatUnits(remainingWei, 18); 
-                const remainingValue = Number(remaining);
-                
-                airdropRemainingEl.textContent = remainingValue.toLocaleString(undefined, { maximumFractionDigits: 2 });
-                
-                // Si lo que queda es 0 o muy cerca de 0, marcamos la pool como agotada.
-                if (remainingValue < 0.01) {
-                    isAirdropExhausted = true;
-                    // También podemos actualizar el mensaje de estado si no hay otro mensaje importante
-                    if (statusEl.textContent.trim() === "" || statusEl.textContent.includes("Reclamo exitoso")) {
-                         statusEl.textContent = "⚠️ ¡El Airdrop ha sido agotado! 🚫";
-                         statusEl.classList.add("exhausted");
-                    }
-                } else {
-                    isAirdropExhausted = false;
-                    statusEl.classList.remove("exhausted");
-                }
 
-                // Asegura que el estado del botón se actualice si la pool se agotó
-                if (userAddress) {
-                    refreshClaimStatus(); 
-                }
+                
+
+                airdropRemainingEl.textContent = Number(remaining).toLocaleString(undefined, { maximumFractionDigits: 2 });
 
             } catch (err) {
+
                 airdropRemainingEl.textContent = "Error";
+
             }
+
         }
 
+
+
         /**
+
          * Actualiza el estado de reclamo del usuario.
+
          */
+
         async function refreshClaimStatus() {
+
             // Requiere que la billetera esté conectada
+
             if (!contract || !userAddress) {
+
                 claimedStatusEl.textContent = "Descon.";
+
                 claimedStatusEl.classList.remove("claimed");
+
                 claimedStatusEl.classList.add("pending");
+
                 setAirdropButtonState(false, "Conectar Wallet");
+
                 return;
+
             }
+
             
+
             try {
+
                 const didClaim = await contract.hasClaimed(userAddress);
+
                 
+
                 // Actualización de clases para el nuevo diseño (Verde para reclamado)
+
                 if (didClaim) {
+
                     claimedStatusEl.textContent = "✅ Ya reclamaste";
+
                     claimedStatusEl.classList.add("claimed");
+
                     claimedStatusEl.classList.remove("pending");
+
                     setAirdropButtonState(false, "Reclamo completado");
+
                 } else {
+
                     claimedStatusEl.textContent = "⏳ Pendiente";
+
                     claimedStatusEl.classList.remove("claimed");
+
                     claimedStatusEl.classList.add("pending");
-                    // Asegura que se desactive si la pool está agotada, incluso si no ha reclamado
-                    setAirdropButtonState(!isAirdropExhausted);
+
+                    setAirdropButtonState(true);
+
                 }
+
             } catch (err) {
+
                 // Si falla la lectura, no hacemos nada y dejamos el estado actual
+
             }
+
         }
 
+
+
         /**
+
          * Evento al hacer clic en Reclamar Airdrop.
+
          */
+
         airdropButton.onclick = async () => {
+
             if (!contract) {
+
                 statusEl.textContent = "🚨 Por favor, conecta tu wallet.";
+
                 return;
+
             }
-            
-            // Verificación previa de pool agotada
-            if (isAirdropExhausted) {
-                statusEl.textContent = "⚠️ ¡El Airdrop está agotado! No puedes reclamar.";
-                statusEl.classList.add("exhausted");
-                return;
-            }
+
+
 
             setAirdropButtonState(false, "Procesando...");
-            statusEl.classList.remove("exhausted");
+
             statusEl.textContent = "⛏️ Enviando transacción... Por favor, aprueba en tu wallet.";
+
             
+
             try {
+
                 // Envía la transacción
+
                 const tx = await contract.claimAirdrop();
+
                 statusEl.textContent = "🚀 Transacción enviada. Hash: " + tx.hash.slice(0, 10) + "... Esperando confirmación...";
+
                 
+
                 // Espera a que la transacción se mine
+
                 await tx.wait();
+
                 
+
                 statusEl.textContent = "✅ Reclamo exitoso. Los tokens han sido enviados.";
+
                 
+
                 // Actualiza los estados
+
                 await refreshAirdropInfo();
+
                 await refreshClaimStatus();
+
             } catch (err) {
+
                 let errorMsg = "❌ Error desconocido al reclamar.";
-                statusEl.classList.remove("exhausted"); // Limpia la clase de agotado por si acaso
+
                 
+
                 // 4001: Usuario rechazó la transacción
+
                 if (err.code === 4001) {
+
                     errorMsg = "❌ Transacción rechazada por el usuario.";
+
                 } else if (err.reason) {
+
                     // Manejo de errores de EVM/Contrato (Revert)
+
                     if (err.reason.includes("Already claimed")) {
+
                          errorMsg = "❌ Ya reclamaste el airdrop.";
+
                     } else if (err.reason.includes("Airdrop pool exhausted")) {
-                         errorMsg = "⚠️ ¡El Airdrop ha sido agotado! 🚫"; // <-- Mensaje específico para pool agotada
-                        statusEl.classList.add("exhausted"); // Aplica el estilo de agotado
-                        isAirdropExhausted = true;
+
+                         errorMsg = "❌ Airdrop agotado.";
+
                     } else {
-                        errorMsg = `❌ Falló la transacción: ${err.reason.slice(0, 50)}...`; // Trunca el mensaje de error largo
+
+                        errorMsg = `❌ Falló la transacción: ${err.reason}`;
+
                     }
+
                 } else {
+
                     errorMsg = `❌ Error RPC/Desconocido. Intenta de nuevo.`;
+
                 }
+
                 
+
                 statusEl.textContent = errorMsg;
+
                 
+
                 // Volvemos a habilitar el botón si no fue un reclamo completado
+
                 refreshClaimStatus(); 
+
             }
+
         };
 
+
+
         // Escucha cambios de cuenta y red en MetaMask para recargar la app
+
         if (window.ethereum) {
+
             window.ethereum.on("accountsChanged", () => location.reload());
+
             window.ethereum.on("chainChanged", () => location.reload());
+
         }
 
+
+
         // Auto-refresh del Airdrop restante cada 30 segundos
+
         setInterval(() => {
+
             refreshAirdropInfo();
+
         }, 30000); 
+
         
+
         // Carga inicial de la información del Airdrop
+
         refreshAirdropInfo(); 
+
         
+
     </script>
+
 </body>
+
+
 
 </html>

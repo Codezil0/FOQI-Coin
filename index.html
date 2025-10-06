@@ -422,6 +422,35 @@
     transform: scale(1.05);
 }
 
+.logo-paragraph {
+    text-align: center;
+    margin: 25px 0;
+}
+
+/* Logo final igual que el principal */
+.footer-color-logo {
+    width: 220px; /* igual que .logo */
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+    box-shadow: 0 0 20px rgba(66, 153, 225, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover igual que el del logo inicial */
+.footer-color-logo:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(66, 153, 225, 0.6);
+}
+
+/* Ajuste responsive para móviles */
+@media (max-width: 500px) {
+    .footer-color-logo {
+        width: 150px;
+        height: 150px;
+    }
+}
 
     </style>
 </head>
@@ -770,6 +799,7 @@
 </body>
 
 </html>
+
 
 
 

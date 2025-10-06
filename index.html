@@ -358,6 +358,23 @@
             font-size: 0.8rem;
             color: var(--text-muted);
         }
+        /* --- Ajuste Responsive para Móviles (Airdrop Grid) --- */
+@media (max-width: 480px) {
+    .airdrop-grid {
+        grid-template-columns: 1fr; /* Apila las cajas verticalmente */
+        gap: 12px;
+    }
+
+    .airdrop-stat {
+        width: 100%; /* Evita que las cajas se salgan */
+        box-sizing: border-box;
+    }
+
+    .airdrop-section {
+        padding: 15px; /* Ajusta el padding general en móviles */
+    }
+}
+
     </style>
 </head>
 
@@ -701,3 +718,4 @@
 </body>
 
 </html>
+

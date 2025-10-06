@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>FOQI Coin | $FOQI Airdrop</title>
 
+    <!-- FAVICON -->
     <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
 
+    <!-- Ethers.js para interactuar con Ethereum -->
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
 
+    <!-- 
+        CSS CUSTOMIZADO (INLINE)
+        Todo el CSS se encuentra aquí para cumplir con la regla de archivo único.
+    -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
@@ -356,11 +362,14 @@
 </head>
 
 <body>
+    <!-- Contenedor Principal con el diseño oscuro -->
     <div class="container"> 
 
+        <!-- Header -->
         <header class="header">
             <div class="logo-container">
-                <img alt="FOQI Coin Logo" class="logo">
+                <!-- URL de la imagen del logo -->
+                <img  alt="FOQI Coin Logo" class="logo">
             </div>
             <h1>FOQI Coin (<span class="token-symbol">$FOQI</span>)</h1>
             <p class="slogan">
@@ -368,6 +377,7 @@
             </p>
         </header>
 
+        <!-- Wallet Section -->
         <section class="section">
             <h2>🔗 Conexión y Estado</h2>
 
@@ -375,11 +385,13 @@
                 Conectar Wallet
             </button>
 
+            <!-- Detalles de la Wallet -->
             <div class="wallet-status-details">
                 <p class="truncate">
                     <span class="status-label">Wallet:</span>
                     <span id="walletAddress" class="status-value disconnected">No conectado</span>
                 </p>
+                <!-- La línea de red está oculta por el CSS -->
                 <p class="network-line">
                     <span class="status-label">Red:</span>
                     <span id="networkStatus" class="status-value disconnected">Desconectado</span>
@@ -387,6 +399,7 @@
             </div>
         </section>
 
+        <!-- Airdrop Section -->
         <section class="section airdrop-section">
             <h2 class="airdrop-title">
                 💧 Reclama tu Airdrop FOQI
@@ -408,6 +421,7 @@
                 Reclamar Airdrop
             </button>
             
+            <!-- Nuevo Botón para Añadir Token -->
             <button id="addTokenButton" class="add-token-button">
                 ➕ Añadir $FOQI a Wallet
             </button>
@@ -416,6 +430,7 @@
             <p id="status" class="status-message"></p>
         </section>
 
+        <!-- About Section -->
         <section class="section about-section">
             <h3>🌱 Sobre FOQI Coin</h3>
             <p class="about-text">
@@ -425,6 +440,7 @@
             </p>
         </section>
 
+        <!-- Footer -->
         <footer class="footer">
             <p>© 2025 FOQI Coin | $FOQI</p>
         </footer>
@@ -648,17 +664,11 @@
                 if (err.code === 4001) {
                     errorMsg = "❌ Transacción rechazada por el usuario.";
                 } else if (err.reason) {
-                    // Manejo de errores de EVM/Contrato (Revert) con las NUEVAS frases de Mainnet
-                    
-                    // 1. RECLAMO DUPLICADO (Buscamos la frase larga y corregida)
-                    if (err.reason.includes("ya ha reclamado sus tokens")) {
-                        errorMsg = "❌ ¡ERROR! Ya reclamaste tu Airdrop FOQI.";
-                        
-                    // 2. POOL AGOTADO (Buscamos la frase larga y corregida)
-                    } else if (err.reason.includes("La piscina de Airdrop ha sido completamente agotada")) {
-                        errorMsg = "❌ ¡AGOTADO! La piscina de Airdrop FOQI se ha vaciado.";
-                    
-                    // 3. Error genérico o error corto de contrato (ej. "Max supply exceeded")
+                    // Manejo de errores de EVM/Contrato (Revert)
+                    if (err.reason.includes("Already claimed")) {
+                         errorMsg = "❌ Ya reclamaste el airdrop.";
+                    } else if (err.reason.includes("Airdrop pool exhausted")) {
+                         errorMsg = "❌ Airdrop agotado.";
                     } else {
                         errorMsg = `❌ Falló la transacción: ${err.reason}`;
                     }
@@ -690,5 +700,4 @@
     </script>
 </body>
 </html>
-
 

@@ -91,6 +91,36 @@
             /* Sombra elegante para destacarlo en el tema oscuro */
             box-shadow: 0 0 20px rgba(66, 153, 225, 0.4); 
         }
+        .logo-paragraph {
+    text-align: center;
+    margin: 15px 0;
+}
+
+/* Igual al logo principal, con el mismo brillo y tamaño */
+.footer-color-logo {
+    width: 220px; /* igual que .logo */
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+    box-shadow: 0 0 20px rgba(66, 153, 225, 0.4); /* mismo efecto azul */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Misma animación en hover que el logo principal */
+.footer-color-logo:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(66, 153, 225, 0.6);
+}
+
+/* Ajuste para móviles, igual que el logo principal */
+@media (max-width: 500px) {
+    .footer-color-logo {
+        width: 150px;
+        height: 150px;
+    }
+}
+
         
         /* Ajuste de logo para móviles */
         @media (max-width: 500px) {
@@ -740,6 +770,7 @@
 </body>
 
 </html>
+
 
 
 
